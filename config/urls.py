@@ -13,4 +13,5 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("core.urls")),
+    path("api/sql/", include("sql_api.urls")),        # Member 2
 ]
