@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "core",            # shared API layer, home page, MongoDB connection (Member 1)
     "pokeapi_client",  # PokeAPI client with local cache (Member 4)
     "sql_api",         # PostgreSQL version of the API (Member 2)
+    "mongo_api",       # MongoDB version of the API (Member 3)
 ]
 
 MIDDLEWARE = [
