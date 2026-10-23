@@ -1,0 +1,58 @@
+// Architecture diagram. Rebuild the PNG with:
+//   dot -Tpng -Gdpi=160 docs/architecture.dot -o docs/architecture.png
+digraph architecture {
+  rankdir=LR;
+  graph [fontname="Helvetica", fontsize=12, nodesep=0.35, ranksep=0.7, bgcolor="white", pad=0.3];
+  node  [fontname="Helvetica", fontsize=11, shape=box, style="rounded,filled", fillcolor="#ffffff", color="#9aa4b2", penwidth=1.2, margin="0.18,0.08"];
+  edge  [fontname="Helvetica", fontsize=9.5, color="#5d6677", arrowsize=0.7];
+
+  client  [label="Browser / curl / tests\n(HTTP + JSON)", fillcolor="#f1f3f6"];
+  pokeapi [label="PokeAPI\npokeapi.co (public)", fillcolor="#fff4e0", color="#d9a441"];
+
+  subgraph cluster_django {
+    label="Django project (config/, core/: Member 1)"; fontsize=12; style="rounded"; color="#c5ccd6";
+
+    urls   [label="config/urls.py\n/api/sql/  /api/mongo/  /compare/"];
+    coreapi [label="core/api.py + core/serializers.py (Member 1)\nshared views and validation\n(same endpoints, same JSON)", fillcolor="#f7f7fb"];
+
+    subgraph cluster_sql {
+      label="sql_api (Member 2)"; color="#2f6db3"; fontcolor="#2f6db3"; style="rounded";
+      sqlrepo [label="repository.py\nDjango ORM", color="#2f6db3"];
+      sqlimp  [label="importer.py\nmodels.py + migrations", color="#2f6db3"];
+    }
+    subgraph cluster_mongo {
+      label="mongo_api (Member 3)"; color="#2f8a4c"; fontcolor="#2f8a4c"; style="rounded";
+      mongorepo [label="repository.py\nPyMongo", color="#2f8a4c"];
+      mongoimp  [label="importer.py\nschema.py ($jsonSchema, indexes)", color="#2f8a4c"];
+    }
+    subgraph cluster_client {
+      label="pokeapi_client (Member 4)"; color="#b07a1e"; fontcolor="#b07a1e"; style="rounded";
+      fetch [label="client.py\ncache first, 0.2 s delay,\nretry on 429 / 5xx", color="#b07a1e"];
+      norm  [label="normalize.py\none neutral record\nper Pokemon", color="#b07a1e"];
+    }
+    compare [label="comparison (Member 4)\nbenchmark, query inspector,\ndata model page", color="#6b5bb5"];
+  }
+
+  cache [label=".cache/pokeapi/*.json\n(local, git-ignored)", shape=folder, fillcolor="#fffaf0", color="#d9a441"];
+  pg    [label="PostgreSQL\n5 normalised tables\n+ teams", shape=cylinder, fillcolor="#e6eef8", color="#2f6db3"];
+  mongo [label="MongoDB\npokemon (embedded docs)\n+ teams (references)", shape=cylinder, fillcolor="#e4f3e8", color="#2f8a4c"];
+
+  client -> urls;
+  urls -> coreapi;
+  coreapi -> sqlrepo [label="repository\npattern"];
+  coreapi -> mongorepo;
+  sqlrepo -> pg [label="SQL (JOINs)"];
+  mongorepo -> mongo [label="find / aggregate\n$lookup"];
+
+  pokeapi -> fetch [label="HTTPS, once\nper Pokemon", style=dashed];
+  fetch -> cache [dir=both, style=dashed];
+  fetch -> norm;
+  norm -> sqlimp;
+  norm -> mongoimp;
+  sqlimp -> pg [label="upsert in\none transaction"];
+  mongoimp -> mongo [label="bulk_write\nReplaceOne(upsert)"];
+
+  urls -> compare;
+  compare -> sqlrepo [style=dotted];
+  compare -> mongorepo [style=dotted];
+}
