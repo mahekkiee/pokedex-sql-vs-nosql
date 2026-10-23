@@ -1,0 +1,55 @@
+# Runs the whole test suite on every push and pull request, with real
+# PostgreSQL and MongoDB servers started as service containers.
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: pokedex
+          POSTGRES_USER: pokedex
+          POSTGRES_PASSWORD: pokedex
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U pokedex"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      mongo:
+        image: mongo:8.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.runCommand({ping: 1})'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DJANGO_SECRET_KEY: ci-only-not-secret
+      DJANGO_DEBUG: "False"
+      POSTGRES_HOST: localhost
+      MONGO_URI: mongodb://localhost:27017
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Django system checks
+        run: python manage.py check
+      - name: Migrations are up to date
+        run: python manage.py makemigrations --check --dry-run
+      - name: Run tests
+        run: python manage.py test -v 2

@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "core",            # shared API layer, home page, MongoDB connection (Member 1)
 ]
 
 MIDDLEWARE = [

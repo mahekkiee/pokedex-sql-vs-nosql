@@ -1,0 +1,78 @@
+{% extends "core/base.html" %}
+{% block content %}
+<section class="intro">
+  <h1>One API, two databases</h1>
+  <p>The same small Pokedex API is served twice: once from <strong class="sql">PostgreSQL</strong>
+     through Django's ORM, and once from <strong class="mongo">MongoDB</strong> through PyMongo.
+     The URLs, inputs and JSON responses are identical, so we can compare data modelling,
+     queries, ease of use and speed fairly.</p>
+</section>
+
+<section class="grid two">
+  <div class="card sql-card">
+    <h2><span class="dot sql-bg"></span>PostgreSQL</h2>
+    {% if postgres.ok %}
+      <p class="status ok">Connected, version {{ postgres.version }}</p>
+      <p>Pokemon rows: <strong>{{ postgres.pokemon|default_if_none:"?" }}</strong>
+         {% if postgres.teams is not None %}&middot; Teams: <strong>{{ postgres.teams }}</strong>{% endif %}</p>
+      {% if postgres.hint %}<p class="hint">{{ postgres.hint }}</p>{% endif %}
+    {% else %}
+      <p class="status bad">Not connected</p><p class="hint">{{ postgres.error }}</p>
+    {% endif %}
+    {% if has_sql %}
+    <ul class="links">
+      <li><a href="/api/sql/">/api/sql/</a> (API root)</li>
+      <li><a href="/api/sql/pokemon/?type=fire&amp;ordering=-attack">/api/sql/pokemon/?type=fire&amp;ordering=-attack</a></li>
+      <li><a href="/api/sql/pokemon/pikachu/">/api/sql/pokemon/pikachu/</a></li>
+      <li><a href="/api/sql/stats/by-type/">/api/sql/stats/by-type/</a></li>
+      <li><a href="/api/sql/teams/">/api/sql/teams/</a></li>
+    </ul>
+    {% endif %}
+  </div>
+
+  <div class="card mongo-card">
+    <h2><span class="dot mongo-bg"></span>MongoDB</h2>
+    {% if mongodb.ok %}
+      <p class="status ok">Connected, version {{ mongodb.version }}</p>
+      <p>Pokemon documents: <strong>{{ mongodb.pokemon }}</strong> &middot; Teams: <strong>{{ mongodb.teams }}</strong></p>
+    {% else %}
+      <p class="status bad">Not connected</p><p class="hint">{{ mongodb.error }}</p>
+    {% endif %}
+    {% if has_mongo %}
+    <ul class="links">
+      <li><a href="/api/mongo/">/api/mongo/</a> (API root)</li>
+      <li><a href="/api/mongo/pokemon/?type=fire&amp;ordering=-attack">/api/mongo/pokemon/?type=fire&amp;ordering=-attack</a></li>
+      <li><a href="/api/mongo/pokemon/pikachu/">/api/mongo/pokemon/pikachu/</a></li>
+      <li><a href="/api/mongo/stats/by-type/">/api/mongo/stats/by-type/</a></li>
+      <li><a href="/api/mongo/teams/">/api/mongo/teams/</a></li>
+    </ul>
+    {% endif %}
+  </div>
+</section>
+
+<section class="card">
+  <h2>Endpoints (same for both backends)</h2>
+  <table class="table">
+    <thead><tr><th>Method</th><th>Path (after /api/sql/ or /api/mongo/)</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td>GET</td><td><code>pokemon/</code></td><td>List with filters: <code>type</code>, <code>search</code>, <code>min_attack</code>, <code>ordering</code>, <code>limit</code>, <code>offset</code></td></tr>
+      <tr><td>GET</td><td><code>pokemon/&lt;id or name&gt;/</code></td><td>One Pokemon with types, abilities and stats</td></tr>
+      <tr><td>GET</td><td><code>types/</code></td><td>Each type and how many Pokemon have it</td></tr>
+      <tr><td>GET</td><td><code>stats/by-type/</code></td><td>Average stats per type (aggregation)</td></tr>
+      <tr><td>GET</td><td><code>stats/top/?stat=attack&amp;limit=10</code></td><td>Highest values for one stat</td></tr>
+      <tr><td>GET, POST</td><td><code>teams/</code></td><td>List teams, or create a team of up to 6 Pokemon</td></tr>
+      <tr><td>GET, PUT, DELETE</td><td><code>teams/&lt;id&gt;/</code></td><td>Read (with a join), replace or delete a team</td></tr>
+    </tbody>
+  </table>
+  <p class="hint">Every response has an <code>X-DB-Time-ms</code> header showing the time spent in the database layer.
+     <a href="/api/health/">/api/health/</a> reports both connections as JSON.</p>
+</section>
+
+{% if has_comparison %}
+<section class="grid three">
+  <a class="card tile" href="/compare/"><h3>Benchmark</h3><p>Median timings for the same operations on both databases.</p></a>
+  <a class="card tile" href="/compare/queries/"><h3>Query inspector</h3><p>The exact SQL and MongoDB commands each endpoint sends.</p></a>
+  <a class="card tile" href="/compare/model/"><h3>Data model</h3><p>Normalised tables next to the embedded document.</p></a>
+</section>
+{% endif %}
+{% endblock %}

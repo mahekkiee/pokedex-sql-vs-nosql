@@ -1,0 +1,26 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Pokedex: SQL vs NoSQL{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">Pokedex <span class="sql">SQL</span> vs <span class="mongo">NoSQL</span></a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/api/">API</a>
+      <a href="/compare/">Benchmark</a>
+      <a href="/compare/queries/">Queries</a>
+      <a href="/compare/model/">Data model</a>
+      <a href="/admin/">Admin</a>
+    </nav>
+  </header>
+  <main class="page">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">Django + PostgreSQL + MongoDB, data from PokeAPI (cached locally)</footer>
+</body>
+</html>
