@@ -1,0 +1,103 @@
+{% extends "core/base.html" %}
+{% load compare_extras %}
+{% block title %}Benchmark | Pokedex SQL vs NoSQL{% endblock %}
+{% block content %}
+<h1>Speed: same operations, two databases</h1>
+
+{% if not results %}
+  <div class="card">
+    <h2>No benchmark results yet</h2>
+    <p>Load the data into both databases, then run:</p>
+    <pre>python manage.py run_benchmark --iterations 200</pre>
+    <p class="hint">Results are saved to <code>benchmark_results/latest.json</code> and shown here.</p>
+  </div>
+{% else %}
+  <div class="card">
+    <div class="legend">
+      <span><span class="dot sql-bg"></span>PostgreSQL {{ results.environment.postgresql }}</span>
+      <span><span class="dot mongo-bg"></span>MongoDB {{ results.environment.mongodb }}</span>
+      {% if layer == "db" %}<span><span class="dot raw-bg"></span>PostgreSQL, hand-written SQL (no ORM)</span>{% endif %}
+      <span>Median of {{ results.iterations }} runs per operation &middot; {{ results.pokemon_count.postgresql }} Pokemon per database{% if results.scale > 1 %} (scale x{{ results.scale }}){% endif %}</span>
+    </div>
+    <p>
+      {% for l in layers %}
+        {% if l == layer %}<strong>{{ layer_names|get_item:l }}</strong>{% else %}<a href="?layer={{ l }}">{{ layer_names|get_item:l }}</a>{% endif %}{% if not forloop.last %} &nbsp;|&nbsp; {% endif %}
+      {% endfor %}
+    </p>
+    <p class="hint">Faster in this layer (Django ORM vs PyMongo): PostgreSQL {{ wins.postgresql }} operation{{ wins.postgresql|pluralize }}, MongoDB {{ wins.mongodb }} operation{{ wins.mongodb|pluralize }}. Bars are scaled per row to the slowest bar.{% if layer == "db" %} The light bar runs the same read with one hand-written SQL statement, which shows how much of the SQL time is the ORM rather than PostgreSQL.{% endif %}</p>
+
+    {% for row in rows %}
+    <div class="bench-row">
+      <div class="bench-label"><strong>{{ row.label }}</strong><span>{{ row.description }}</span></div>
+      <div class="bars">
+        <div class="bar sql"><div class="track"><div class="fill" style="width: {{ row.sql_width }}%"></div></div><span class="val">{{ row.postgresql.median_ms|floatformat:3 }} ms</span></div>
+        <div class="bar mongo"><div class="track"><div class="fill" style="width: {{ row.mongo_width }}%"></div></div><span class="val">{{ row.mongodb.median_ms|floatformat:3 }} ms</span></div>
+        {% if row.raw_width %}<div class="bar raw"><div class="track"><div class="fill" style="width: {{ row.raw_width }}%"></div></div><span class="val">{{ row.postgresql_raw.median_ms|floatformat:3 }} ms raw</span></div>{% endif %}
+      </div>
+      <div class="verdict {% if row.faster == 'postgresql' %}sql{% else %}mongo{% endif %}">
+        {{ row.faster|backend_name }}<br>{{ row.ratio }}x faster
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="card">
+    <h2>Full numbers ({{ layer }} layer, milliseconds)</h2>
+    <table class="table">
+      <thead><tr><th>Operation</th><th class="num">SQL (ORM) median</th><th class="num">SQL p95</th><th class="num">Mongo median</th><th class="num">Mongo p95</th>{% if layer == "db" %}<th class="num">Raw SQL median</th>{% endif %}<th class="num">Runs</th></tr></thead>
+      <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row.label }}</td>
+          <td class="num">{{ row.postgresql.median_ms|floatformat:3 }}</td>
+          <td class="num">{{ row.postgresql.p95_ms|floatformat:3 }}</td>
+          <td class="num">{{ row.mongodb.median_ms|floatformat:3 }}</td>
+          <td class="num">{{ row.mongodb.p95_ms|floatformat:3 }}</td>
+          {% if layer == "db" %}<td class="num">{% if row.postgresql_raw %}{{ row.postgresql_raw.median_ms|floatformat:3 }}{% else %}-{% endif %}</td>{% endif %}
+          <td class="num">{{ row.iterations }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <section class="grid two">
+    <div class="card">
+      <h2>Storage for the Pokemon data</h2>
+      <table class="table">
+        <thead><tr><th></th><th class="num">PostgreSQL</th><th class="num">MongoDB</th></tr></thead>
+        <tbody>
+          <tr><td>Logical (rows / documents)</td><td class="num">{{ storage.postgresql.logical_bytes|bytes_human }}</td><td class="num">{{ storage.mongodb.logical_bytes|bytes_human }}</td></tr>
+          <tr><td>On disk incl. indexes</td><td class="num">{{ storage.postgresql.on_disk_bytes|bytes_human }}</td><td class="num">{{ storage.mongodb.on_disk_bytes|bytes_human }}</td></tr>
+        </tbody>
+      </table>
+      <p class="hint">MongoDB repeats field names inside every document but compresses its files; PostgreSQL stores column names once but splits data over five tables, each with its own indexes.</p>
+    </div>
+    <div class="card">
+      <h2>Code needed (lines, no comments)</h2>
+      <table class="table">
+        <thead><tr><th>PostgreSQL</th><th class="num">Lines</th><th>MongoDB</th><th class="num">Lines</th></tr></thead>
+        <tbody>
+          <tr><td>models.py</td><td class="num">{{ code_size.postgresql.files|get_item:"sql_api/models.py" }}</td><td>schema.py</td><td class="num">{{ code_size.mongodb.files|get_item:"mongo_api/schema.py" }}</td></tr>
+          <tr><td>repository.py</td><td class="num">{{ code_size.postgresql.files|get_item:"sql_api/repository.py" }}</td><td>repository.py</td><td class="num">{{ code_size.mongodb.files|get_item:"mongo_api/repository.py" }}</td></tr>
+          <tr><td>importer.py</td><td class="num">{{ code_size.postgresql.files|get_item:"sql_api/importer.py" }}</td><td>importer.py</td><td class="num">{{ code_size.mongodb.files|get_item:"mongo_api/importer.py" }}</td></tr>
+          <tr><td><strong>Total</strong></td><td class="num"><strong>{{ code_size.postgresql.total }}</strong></td><td><strong>Total</strong></td><td class="num"><strong>{{ code_size.mongodb.total }}</strong></td></tr>
+        </tbody>
+      </table>
+      <p class="hint">The SQL side also gets generated migrations and a free admin site; the MongoDB side has to check references itself.</p>
+    </div>
+  </section>
+
+  <div class="card">
+    <h2>Run details</h2>
+    <dl class="kv">
+      <dt>Generated</dt><dd>{{ results.generated_at }}</dd>
+      <dt>Machine</dt><dd>{{ results.environment.platform }}, {{ results.environment.cpu_count }} CPUs</dd>
+      <dt>Software</dt><dd>Python {{ results.environment.python }}, Django {{ results.environment.django }}, psycopg {{ results.environment.psycopg }}, PyMongo {{ results.environment.pymongo }}</dd>
+      <dt>Warm-up calls</dt><dd>{{ results.warmup }}</dd>
+      <dt>Test values</dt><dd>type "{{ results.context.common_type }}", search "{{ results.context.search_term }}", attack &ge; {{ results.context.min_attack }}</dd>
+    </dl>
+    <p class="hint">Both databases ran on the same machine with equivalent indexes, calls were interleaved, and Django's DEBUG was off while timing. Times are for this machine only; re-run <code>python manage.py run_benchmark</code> on yours.</p>
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "core/base.html" %}
+{% block title %}Data model | Pokedex SQL vs NoSQL{% endblock %}
+{% block content %}
+<h1>Data model: tables vs documents</h1>
+<p class="intro hint">Read live from both databases.</p>
+
+{% if error %}<div class="card"><p class="status bad">{{ error }}</p></div>{% endif %}
+
+{% if example_id %}
+<div class="card">
+  <h2>The same Pokemon (#{{ example_id }}) in each database</h2>
+  <div class="side">
+    <div class="stack">
+      <h3 class="sql">PostgreSQL <span class="count">{{ sql_example.row_count }} rows in 3 tables, plus 2 lookup tables</span></h3>
+      <p class="hint">sql_api_pokemon</p>
+      <pre>{{ sql_example.pokemon|pprint }}</pre>
+      <p class="hint">sql_api_pokemontype (joined to sql_api_type)</p>
+      <pre>{% for r in sql_example.type_rows %}{{ r|pprint }}
+{% endfor %}</pre>
+      <p class="hint">sql_api_pokemonability (joined to sql_api_ability)</p>
+      <pre>{% for r in sql_example.ability_rows %}{{ r|pprint }}
+{% endfor %}</pre>
+    </div>
+    <div class="stack">
+      <h3 class="mongo">MongoDB <span class="count">1 document in 1 collection</span></h3>
+      <pre>{{ mongo_example }}</pre>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<section class="side">
+  <div>
+    <h2 class="sql">PostgreSQL tables</h2>
+    {% for t in tables %}
+    <div class="card">
+      <h3>{{ t.table }} <span class="hint">({{ t.rows }} rows)</span></h3>
+      <table class="table">
+        <thead><tr><th>Column</th><th>Type</th><th>Rules</th></tr></thead>
+        <tbody>
+        {% for c in t.columns %}<tr><td><code>{{ c.name }}</code></td><td>{{ c.type }}</td><td class="hint">{{ c.notes }}</td></tr>{% endfor %}
+        </tbody>
+      </table>
+      {% if t.constraints %}<p class="hint">Constraints: {{ t.constraints|join:", " }}</p>{% endif %}
+      {% if t.indexes %}<p class="hint">Extra indexes: {{ t.indexes|join:", " }}</p>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  <div>
+    <h2 class="mongo">MongoDB collections</h2>
+    {% for c in collections %}
+    <div class="card">
+      <h3>{{ c.name }} <span class="hint">({{ c.documents }} document{{ c.documents|pluralize }})</span></h3>
+      <p class="hint">Indexes</p>
+      <ul class="links">{% for name, keys in c.indexes.items %}<li><code>{{ name }}</code>: {{ keys|join:", " }}</li>{% endfor %}</ul>
+      <details><summary>$jsonSchema validator</summary><pre>{{ c.validator }}</pre></details>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

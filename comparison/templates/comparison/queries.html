@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+{% block title %}Query inspector | Pokedex SQL vs NoSQL{% endblock %}
+{% block content %}
+<h1>Query inspector</h1>
+<p class="intro hint">Each operation was just run once on each database. Left: the Django ORM code and the SQL it generated.
+Right: the PyMongo code and the commands MongoDB received. Count the round trips to see the effect of the data model.</p>
+
+{% if error %}
+  <div class="card"><p class="status bad">{{ error }}</p></div>
+{% endif %}
+
+{% for row in rows %}
+<div class="card" id="{{ row.key }}">
+  <h2>{{ row.label }}</h2>
+  <p class="hint">{{ row.description }} Repository function: <code>{{ row.function }}</code></p>
+  <div class="side">
+    <div class="stack">
+      <h3 class="sql">PostgreSQL <span class="count">{{ row.sql|length }} SQL statement{{ row.sql|length|pluralize }}</span></h3>
+      {% for statement in row.sql %}<pre>{{ statement }}</pre>{% endfor %}
+      <details><summary>Python (Django ORM)</summary><pre>{{ row.sql_source }}</pre></details>
+    </div>
+    <div class="stack">
+      <h3 class="mongo">MongoDB <span class="count">{{ row.mongo|length }} command{{ row.mongo|length|pluralize }}</span></h3>
+      {% for command in row.mongo %}<pre>{{ command }}</pre>{% endfor %}
+      <details><summary>Python (PyMongo)</summary><pre>{{ row.mongo_source }}</pre></details>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "pokeapi_client",  # PokeAPI client with local cache (Member 4)
     "sql_api",         # PostgreSQL version of the API (Member 2)
     "mongo_api",       # MongoDB version of the API (Member 3)
+    "comparison",      # benchmark, query inspector and dashboard (Member 4)
 ]
 
 MIDDLEWARE = [

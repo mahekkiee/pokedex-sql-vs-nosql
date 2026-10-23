@@ -14,4 +14,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("core.urls")),
     path("api/sql/", include("sql_api.urls")),        # Member 2
+    path("api/mongo/", include("mongo_api.urls")),    # Member 3
+    path("compare/", include("comparison.urls")),     # Member 4
 ]
