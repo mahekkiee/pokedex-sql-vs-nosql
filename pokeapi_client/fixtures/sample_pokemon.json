@@ -1,0 +1,774 @@
+[
+ {
+  "id": 1,
+  "name": "bulbasaur",
+  "base_experience": 64,
+  "height": 7,
+  "is_default": true,
+  "order": 1,
+  "weight": 69,
+  "abilities": [
+   {
+    "is_hidden": false,
+    "slot": 1,
+    "ability": {
+     "name": "overgrow",
+     "url": "/api/v2/ability/65/"
+    }
+   },
+   {
+    "is_hidden": true,
+    "slot": 3,
+    "ability": {
+     "name": "chlorophyll",
+     "url": "/api/v2/ability/34/"
+    }
+   }
+  ],
+  "species": {
+   "name": "bulbasaur",
+   "url": "/api/v2/pokemon-species/1/"
+  },
+  "sprites": {
+   "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+   "official_artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+  },
+  "stats": [
+   {
+    "base_stat": 45,
+    "effort": 0,
+    "stat": {
+     "name": "hp",
+     "url": "/api/v2/stat/1/"
+    }
+   },
+   {
+    "base_stat": 49,
+    "effort": 0,
+    "stat": {
+     "name": "attack",
+     "url": "/api/v2/stat/2/"
+    }
+   },
+   {
+    "base_stat": 49,
+    "effort": 0,
+    "stat": {
+     "name": "defense",
+     "url": "/api/v2/stat/3/"
+    }
+   },
+   {
+    "base_stat": 65,
+    "effort": 1,
+    "stat": {
+     "name": "special-attack",
+     "url": "/api/v2/stat/4/"
+    }
+   },
+   {
+    "base_stat": 65,
+    "effort": 0,
+    "stat": {
+     "name": "special-defense",
+     "url": "/api/v2/stat/5/"
+    }
+   },
+   {
+    "base_stat": 45,
+    "effort": 0,
+    "stat": {
+     "name": "speed",
+     "url": "/api/v2/stat/6/"
+    }
+   }
+  ],
+  "types": [
+   {
+    "slot": 1,
+    "type": {
+     "name": "grass",
+     "url": "/api/v2/type/12/"
+    }
+   },
+   {
+    "slot": 2,
+    "type": {
+     "name": "poison",
+     "url": "/api/v2/type/4/"
+    }
+   }
+  ]
+ },
+ {
+  "id": 4,
+  "name": "charmander",
+  "base_experience": 62,
+  "height": 6,
+  "is_default": true,
+  "order": 5,
+  "weight": 85,
+  "abilities": [
+   {
+    "is_hidden": false,
+    "slot": 1,
+    "ability": {
+     "name": "blaze",
+     "url": "/api/v2/ability/66/"
+    }
+   },
+   {
+    "is_hidden": true,
+    "slot": 3,
+    "ability": {
+     "name": "solar-power",
+     "url": "/api/v2/ability/94/"
+    }
+   }
+  ],
+  "species": {
+   "name": "charmander",
+   "url": "/api/v2/pokemon-species/4/"
+  },
+  "sprites": {
+   "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
+   "official_artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
+  },
+  "stats": [
+   {
+    "base_stat": 39,
+    "effort": 0,
+    "stat": {
+     "name": "hp",
+     "url": "/api/v2/stat/1/"
+    }
+   },
+   {
+    "base_stat": 52,
+    "effort": 0,
+    "stat": {
+     "name": "attack",
+     "url": "/api/v2/stat/2/"
+    }
+   },
+   {
+    "base_stat": 43,
+    "effort": 0,
+    "stat": {
+     "name": "defense",
+     "url": "/api/v2/stat/3/"
+    }
+   },
+   {
+    "base_stat": 60,
+    "effort": 0,
+    "stat": {
+     "name": "special-attack",
+     "url": "/api/v2/stat/4/"
+    }
+   },
+   {
+    "base_stat": 50,
+    "effort": 0,
+    "stat": {
+     "name": "special-defense",
+     "url": "/api/v2/stat/5/"
+    }
+   },
+   {
+    "base_stat": 65,
+    "effort": 1,
+    "stat": {
+     "name": "speed",
+     "url": "/api/v2/stat/6/"
+    }
+   }
+  ],
+  "types": [
+   {
+    "slot": 1,
+    "type": {
+     "name": "fire",
+     "url": "/api/v2/type/10/"
+    }
+   }
+  ]
+ },
+ {
+  "id": 6,
+  "name": "charizard",
+  "base_experience": 240,
+  "height": 17,
+  "is_default": true,
+  "order": 7,
+  "weight": 905,
+  "abilities": [
+   {
+    "is_hidden": false,
+    "slot": 1,
+    "ability": {
+     "name": "blaze",
+     "url": "/api/v2/ability/66/"
+    }
+   },
+   {
+    "is_hidden": true,
+    "slot": 3,
+    "ability": {
+     "name": "solar-power",
+     "url": "/api/v2/ability/94/"
+    }
+   }
+  ],
+  "species": {
+   "name": "charizard",
+   "url": "/api/v2/pokemon-species/6/"
+  },
+  "sprites": {
+   "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+   "official_artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
+  },
+  "stats": [
+   {
+    "base_stat": 78,
+    "effort": 0,
+    "stat": {
+     "name": "hp",
+     "url": "/api/v2/stat/1/"
+    }
+   },
+   {
+    "base_stat": 84,
+    "effort": 0,
+    "stat": {
+     "name": "attack",
+     "url": "/api/v2/stat/2/"
+    }
+   },
+   {
+    "base_stat": 78,
+    "effort": 0,
+    "stat": {
+     "name": "defense",
+     "url": "/api/v2/stat/3/"
+    }
+   },
+   {
+    "base_stat": 109,
+    "effort": 3,
+    "stat": {
+     "name": "special-attack",
+     "url": "/api/v2/stat/4/"
+    }
+   },
+   {
+    "base_stat": 85,
+    "effort": 0,
+    "stat": {
+     "name": "special-defense",
+     "url": "/api/v2/stat/5/"
+    }
+   },
+   {
+    "base_stat": 100,
+    "effort": 0,
+    "stat": {
+     "name": "speed",
+     "url": "/api/v2/stat/6/"
+    }
+   }
+  ],
+  "types": [
+   {
+    "slot": 1,
+    "type": {
+     "name": "fire",
+     "url": "/api/v2/type/10/"
+    }
+   },
+   {
+    "slot": 2,
+    "type": {
+     "name": "flying",
+     "url": "/api/v2/type/3/"
+    }
+   }
+  ]
+ },
+ {
+  "id": 7,
+  "name": "squirtle",
+  "base_experience": 63,
+  "height": 5,
+  "is_default": true,
+  "order": 10,
+  "weight": 90,
+  "abilities": [
+   {
+    "is_hidden": false,
+    "slot": 1,
+    "ability": {
+     "name": "torrent",
+     "url": "/api/v2/ability/67/"
+    }
+   },
+   {
+    "is_hidden": true,
+    "slot": 3,
+    "ability": {
+     "name": "rain-dish",
+     "url": "/api/v2/ability/44/"
+    }
+   }
+  ],
+  "species": {
+   "name": "squirtle",
+   "url": "/api/v2/pokemon-species/7/"
+  },
+  "sprites": {
+   "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png",
+   "official_artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png"
+  },
+  "stats": [
+   {
+    "base_stat": 44,
+    "effort": 0,
+    "stat": {
+     "name": "hp",
+     "url": "/api/v2/stat/1/"
+    }
+   },
+   {
+    "base_stat": 48,
+    "effort": 0,
+    "stat": {
+     "name": "attack",
+     "url": "/api/v2/stat/2/"
+    }
+   },
+   {
+    "base_stat": 65,
+    "effort": 1,
+    "stat": {
+     "name": "defense",
+     "url": "/api/v2/stat/3/"
+    }
+   },
+   {
+    "base_stat": 50,
+    "effort": 0,
+    "stat": {
+     "name": "special-attack",
+     "url": "/api/v2/stat/4/"
+    }
+   },
+   {
+    "base_stat": 64,
+    "effort": 0,
+    "stat": {
+     "name": "special-defense",
+     "url": "/api/v2/stat/5/"
+    }
+   },
+   {
+    "base_stat": 43,
+    "effort": 0,
+    "stat": {
+     "name": "speed",
+     "url": "/api/v2/stat/6/"
+    }
+   }
+  ],
+  "types": [
+   {
+    "slot": 1,
+    "type": {
+     "name": "water",
+     "url": "/api/v2/type/11/"
+    }
+   }
+  ]
+ },
+ {
+  "id": 25,
+  "name": "pikachu",
+  "base_experience": 112,
+  "height": 4,
+  "is_default": true,
+  "order": 35,
+  "weight": 60,
+  "abilities": [
+   {
+    "is_hidden": false,
+    "slot": 1,
+    "ability": {
+     "name": "static",
+     "url": "/api/v2/ability/9/"
+    }
+   },
+   {
+    "is_hidden": true,
+    "slot": 3,
+    "ability": {
+     "name": "lightning-rod",
+     "url": "/api/v2/ability/31/"
+    }
+   }
+  ],
+  "species": {
+   "name": "pikachu",
+   "url": "/api/v2/pokemon-species/25/"
+  },
+  "sprites": {
+   "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png",
+   "official_artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+  },
+  "stats": [
+   {
+    "base_stat": 35,
+    "effort": 0,
+    "stat": {
+     "name": "hp",
+     "url": "/api/v2/stat/1/"
+    }
+   },
+   {
+    "base_stat": 55,
+    "effort": 0,
+    "stat": {
+     "name": "attack",
+     "url": "/api/v2/stat/2/"
+    }
+   },
+   {
+    "base_stat": 40,
+    "effort": 0,
+    "stat": {
+     "name": "defense",
+     "url": "/api/v2/stat/3/"
+    }
+   },
+   {
+    "base_stat": 50,
+    "effort": 0,
+    "stat": {
+     "name": "special-attack",
+     "url": "/api/v2/stat/4/"
+    }
+   },
+   {
+    "base_stat": 50,
+    "effort": 0,
+    "stat": {
+     "name": "special-defense",
+     "url": "/api/v2/stat/5/"
+    }
+   },
+   {
+    "base_stat": 90,
+    "effort": 2,
+    "stat": {
+     "name": "speed",
+     "url": "/api/v2/stat/6/"
+    }
+   }
+  ],
+  "types": [
+   {
+    "slot": 1,
+    "type": {
+     "name": "electric",
+     "url": "/api/v2/type/13/"
+    }
+   }
+  ]
+ },
+ {
+  "id": 94,
+  "name": "gengar",
+  "base_experience": 225,
+  "height": 15,
+  "is_default": true,
+  "order": 149,
+  "weight": 405,
+  "abilities": [
+   {
+    "is_hidden": false,
+    "slot": 1,
+    "ability": {
+     "name": "cursed-body",
+     "url": "/api/v2/ability/130/"
+    }
+   }
+  ],
+  "species": {
+   "name": "gengar",
+   "url": "/api/v2/pokemon-species/94/"
+  },
+  "sprites": {
+   "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png",
+   "official_artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png"
+  },
+  "stats": [
+   {
+    "base_stat": 60,
+    "effort": 0,
+    "stat": {
+     "name": "hp",
+     "url": "/api/v2/stat/1/"
+    }
+   },
+   {
+    "base_stat": 65,
+    "effort": 0,
+    "stat": {
+     "name": "attack",
+     "url": "/api/v2/stat/2/"
+    }
+   },
+   {
+    "base_stat": 60,
+    "effort": 0,
+    "stat": {
+     "name": "defense",
+     "url": "/api/v2/stat/3/"
+    }
+   },
+   {
+    "base_stat": 130,
+    "effort": 3,
+    "stat": {
+     "name": "special-attack",
+     "url": "/api/v2/stat/4/"
+    }
+   },
+   {
+    "base_stat": 75,
+    "effort": 0,
+    "stat": {
+     "name": "special-defense",
+     "url": "/api/v2/stat/5/"
+    }
+   },
+   {
+    "base_stat": 110,
+    "effort": 0,
+    "stat": {
+     "name": "speed",
+     "url": "/api/v2/stat/6/"
+    }
+   }
+  ],
+  "types": [
+   {
+    "slot": 1,
+    "type": {
+     "name": "ghost",
+     "url": "/api/v2/type/8/"
+    }
+   },
+   {
+    "slot": 2,
+    "type": {
+     "name": "poison",
+     "url": "/api/v2/type/4/"
+    }
+   }
+  ]
+ },
+ {
+  "id": 130,
+  "name": "gyarados",
+  "base_experience": 189,
+  "height": 65,
+  "is_default": true,
+  "order": 211,
+  "weight": 2350,
+  "abilities": [
+   {
+    "is_hidden": false,
+    "slot": 1,
+    "ability": {
+     "name": "intimidate",
+     "url": "/api/v2/ability/22/"
+    }
+   },
+   {
+    "is_hidden": true,
+    "slot": 3,
+    "ability": {
+     "name": "moxie",
+     "url": "/api/v2/ability/153/"
+    }
+   }
+  ],
+  "species": {
+   "name": "gyarados",
+   "url": "/api/v2/pokemon-species/130/"
+  },
+  "sprites": {
+   "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png",
+   "official_artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/130.png"
+  },
+  "stats": [
+   {
+    "base_stat": 95,
+    "effort": 0,
+    "stat": {
+     "name": "hp",
+     "url": "/api/v2/stat/1/"
+    }
+   },
+   {
+    "base_stat": 125,
+    "effort": 2,
+    "stat": {
+     "name": "attack",
+     "url": "/api/v2/stat/2/"
+    }
+   },
+   {
+    "base_stat": 79,
+    "effort": 0,
+    "stat": {
+     "name": "defense",
+     "url": "/api/v2/stat/3/"
+    }
+   },
+   {
+    "base_stat": 60,
+    "effort": 0,
+    "stat": {
+     "name": "special-attack",
+     "url": "/api/v2/stat/4/"
+    }
+   },
+   {
+    "base_stat": 100,
+    "effort": 0,
+    "stat": {
+     "name": "special-defense",
+     "url": "/api/v2/stat/5/"
+    }
+   },
+   {
+    "base_stat": 81,
+    "effort": 0,
+    "stat": {
+     "name": "speed",
+     "url": "/api/v2/stat/6/"
+    }
+   }
+  ],
+  "types": [
+   {
+    "slot": 1,
+    "type": {
+     "name": "water",
+     "url": "/api/v2/type/11/"
+    }
+   },
+   {
+    "slot": 2,
+    "type": {
+     "name": "flying",
+     "url": "/api/v2/type/3/"
+    }
+   }
+  ]
+ },
+ {
+  "id": 150,
+  "name": "mewtwo",
+  "base_experience": 306,
+  "height": 20,
+  "is_default": true,
+  "order": 245,
+  "weight": 1220,
+  "abilities": [
+   {
+    "is_hidden": false,
+    "slot": 1,
+    "ability": {
+     "name": "pressure",
+     "url": "/api/v2/ability/46/"
+    }
+   },
+   {
+    "is_hidden": true,
+    "slot": 3,
+    "ability": {
+     "name": "unnerve",
+     "url": "/api/v2/ability/127/"
+    }
+   }
+  ],
+  "species": {
+   "name": "mewtwo",
+   "url": "/api/v2/pokemon-species/150/"
+  },
+  "sprites": {
+   "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png",
+   "official_artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png"
+  },
+  "stats": [
+   {
+    "base_stat": 106,
+    "effort": 0,
+    "stat": {
+     "name": "hp",
+     "url": "/api/v2/stat/1/"
+    }
+   },
+   {
+    "base_stat": 110,
+    "effort": 0,
+    "stat": {
+     "name": "attack",
+     "url": "/api/v2/stat/2/"
+    }
+   },
+   {
+    "base_stat": 90,
+    "effort": 0,
+    "stat": {
+     "name": "defense",
+     "url": "/api/v2/stat/3/"
+    }
+   },
+   {
+    "base_stat": 154,
+    "effort": 3,
+    "stat": {
+     "name": "special-attack",
+     "url": "/api/v2/stat/4/"
+    }
+   },
+   {
+    "base_stat": 90,
+    "effort": 0,
+    "stat": {
+     "name": "special-defense",
+     "url": "/api/v2/stat/5/"
+    }
+   },
+   {
+    "base_stat": 130,
+    "effort": 0,
+    "stat": {
+     "name": "speed",
+     "url": "/api/v2/stat/6/"
+    }
+   }
+  ],
+  "types": [
+   {
+    "slot": 1,
+    "type": {
+     "name": "psychic",
+     "url": "/api/v2/type/14/"
+    }
+   }
+  ]
+ }
+]

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "core",            # shared API layer, home page, MongoDB connection (Member 1)
+    "pokeapi_client",  # PokeAPI client with local cache (Member 4)
 ]
 
 MIDDLEWARE = [
