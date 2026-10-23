@@ -182,10 +182,33 @@ connection string in `MONGO_URI` in `.env`.
 *To be written by Member 3 (MongoDB lead).*
 <!-- section:q2 end -->
 
-### 3. When would you pick each one?
+### 3. Written by mahek?
 
 <!-- section:q3 start -->
-*To be written by Member 1 (project lead).*
+**Pick PostgreSQL (SQL) when:**
+
+* the data has many relationships and they must stay correct (orders, payments, stock, our teams);
+* you need transactions across several tables;
+* you need flexible questions and reports: joins, GROUP BY, ad-hoc analysis;
+* the structure is fairly stable;
+* you use Django: the ORM, migrations, admin and test tools all assume a SQL database.
+
+**Pick MongoDB (NoSQL) when:**
+
+* each record is naturally one self-contained document that is read and written as a whole
+  (product catalogues, user profiles, content, logs, API responses like PokeAPI's);
+* records have different or quickly changing fields;
+* reads and writes are simple but very frequent, and you may need to scale out across servers;
+* the application mostly works with JSON and rarely needs joins.
+
+**For our Pokedex** both worked. MongoDB fit the Pokemon detail page better (one document, one
+read, fastest writes), while PostgreSQL fit the teams (a many-to-many relationship that must stay
+valid) and the statistics (aggregations were faster once the data grew). Because this is a Django
+project, PostgreSQL was also clearly easier to build, test and administer. If we had to ship it,
+we would choose PostgreSQL, and if part of the data really were document-shaped we would first
+try a `JSONB` column in PostgreSQL before adding a second database.
+
+*Written by Member 1.*
 <!-- section:q3 end -->
 
 ## References
