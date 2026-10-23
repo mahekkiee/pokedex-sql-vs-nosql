@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "core",            # shared API layer, home page, MongoDB connection (Member 1)
     "pokeapi_client",  # PokeAPI client with local cache (Member 4)
+    "sql_api",         # PostgreSQL version of the API (Member 2)
 ]
 
 MIDDLEWARE = [
