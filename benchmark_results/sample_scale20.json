@@ -1,0 +1,686 @@
+{
+  "generated_at": "2026-10-23T10:06:18+00:00",
+  "iterations": 200,
+  "warmup": 10,
+  "scale": 20,
+  "synthetic_copies": 2869,
+  "pokemon_count": {
+    "postgresql": 3020,
+    "mongodb": 3020
+  },
+  "context": {
+    "common_type": "poison",
+    "search_term": "ar",
+    "min_attack": 80
+  },
+  "mongo_write_concern": "default (w:1, not waiting for journal)",
+  "environment": {
+    "python": "3.13.17",
+    "django": "5.2.18",
+    "postgresql": "16.15",
+    "psycopg": "3.3.6",
+    "mongodb": "8.3.7",
+    "pymongo": "4.19.0",
+    "platform": "Linux-6.18.44-fc-v153-x86_64-with-glibc2.39",
+    "cpu_count": 2
+  },
+  "storage": {
+    "postgresql": {
+      "logical_bytes": 1080826,
+      "on_disk_bytes": 2998272,
+      "tables": {
+        "sql_api_pokemon": {
+          "logical_bytes": 455292,
+          "on_disk_bytes": 999424
+        },
+        "sql_api_pokemontype": {
+          "logical_bytes": 209277,
+          "on_disk_bytes": 778240
+        },
+        "sql_api_pokemonability": {
+          "logical_bytes": 410797,
+          "on_disk_bytes": 1105920
+        },
+        "sql_api_type": {
+          "logical_bytes": 650,
+          "on_disk_bytes": 57344
+        },
+        "sql_api_ability": {
+          "logical_bytes": 4810,
+          "on_disk_bytes": 57344
+        }
+      }
+    },
+    "mongodb": {
+      "logical_bytes": 1427224,
+      "on_disk_bytes": 745472,
+      "storage_bytes": 405504,
+      "index_bytes": 339968,
+      "avg_document_bytes": 472
+    }
+  },
+  "layers": {
+    "db": [
+      {
+        "key": "get_by_id",
+        "label": "Get one Pokemon by id",
+        "description": "Primary key lookup returning types, abilities and stats.",
+        "kind": "read",
+        "function": "get_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 4.4742,
+          "mean_ms": 4.5893,
+          "p95_ms": 6.2412,
+          "min_ms": 2.8777,
+          "max_ms": 9.8499,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 1.0221,
+          "mean_ms": 1.1142,
+          "p95_ms": 1.3136,
+          "min_ms": 0.655,
+          "max_ms": 11.3076,
+          "samples": 200
+        },
+        "postgresql_raw": {
+          "median_ms": 1.1355,
+          "mean_ms": 1.1776,
+          "p95_ms": 1.5187,
+          "min_ms": 0.6663,
+          "max_ms": 4.29,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 4.38
+      },
+      {
+        "key": "get_by_name",
+        "label": "Get one Pokemon by name",
+        "description": "Lookup on the unique name index.",
+        "kind": "read",
+        "function": "get_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 4.6203,
+          "mean_ms": 4.6925,
+          "p95_ms": 6.4216,
+          "min_ms": 2.7795,
+          "max_ms": 8.1976,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 1.0915,
+          "mean_ms": 1.1053,
+          "p95_ms": 1.4616,
+          "min_ms": 0.7148,
+          "max_ms": 2.1759,
+          "samples": 200
+        },
+        "postgresql_raw": {
+          "median_ms": 1.0853,
+          "mean_ms": 1.1092,
+          "p95_ms": 1.5863,
+          "min_ms": 0.6207,
+          "max_ms": 2.6955,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 4.23
+      },
+      {
+        "key": "list_page",
+        "label": "List a page of 20",
+        "description": "First pages of the list ordered by id, with each Pokemon's types.",
+        "kind": "read",
+        "function": "list_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 5.5052,
+          "mean_ms": 5.9706,
+          "p95_ms": 7.7729,
+          "min_ms": 3.6812,
+          "max_ms": 63.056,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 5.0753,
+          "mean_ms": 4.9029,
+          "p95_ms": 5.8436,
+          "min_ms": 3.3694,
+          "max_ms": 10.1151,
+          "samples": 200
+        },
+        "postgresql_raw": {
+          "median_ms": 3.7352,
+          "mean_ms": 3.5675,
+          "p95_ms": 4.731,
+          "min_ms": 1.8911,
+          "max_ms": 5.8568,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 1.08
+      },
+      {
+        "key": "filter_type",
+        "label": "Filter by type",
+        "description": "All Pokemon of the most common type (up to 50).",
+        "kind": "read",
+        "function": "list_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 11.1075,
+          "mean_ms": 11.4688,
+          "p95_ms": 16.3348,
+          "min_ms": 7.2482,
+          "max_ms": 27.7251,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 3.6729,
+          "mean_ms": 3.8319,
+          "p95_ms": 5.1204,
+          "min_ms": 2.5625,
+          "max_ms": 12.1683,
+          "samples": 200
+        },
+        "postgresql_raw": {
+          "median_ms": 3.5474,
+          "mean_ms": 3.866,
+          "p95_ms": 5.2472,
+          "min_ms": 2.5564,
+          "max_ms": 9.5127,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 3.02
+      },
+      {
+        "key": "filter_type_attack",
+        "label": "Type + attack filter, sorted",
+        "description": "Most common type with attack >= 80, highest attack first.",
+        "kind": "read",
+        "function": "list_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 8.9748,
+          "mean_ms": 9.1106,
+          "p95_ms": 11.8534,
+          "min_ms": 5.6581,
+          "max_ms": 34.4258,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 5.4397,
+          "mean_ms": 5.5333,
+          "p95_ms": 6.8905,
+          "min_ms": 4.0095,
+          "max_ms": 8.7297,
+          "samples": 200
+        },
+        "postgresql_raw": {
+          "median_ms": 3.0896,
+          "mean_ms": 3.4903,
+          "p95_ms": 4.9575,
+          "min_ms": 2.0502,
+          "max_ms": 28.4525,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 1.65
+      },
+      {
+        "key": "search_name",
+        "label": "Search by name",
+        "description": "Case-insensitive 'contains' search for 'ar'.",
+        "kind": "read",
+        "function": "list_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 6.9075,
+          "mean_ms": 7.0737,
+          "p95_ms": 9.6129,
+          "min_ms": 4.6033,
+          "max_ms": 12.4091,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 5.9613,
+          "mean_ms": 6.4636,
+          "p95_ms": 8.716,
+          "min_ms": 4.9105,
+          "max_ms": 11.3729,
+          "samples": 200
+        },
+        "postgresql_raw": {
+          "median_ms": 3.3305,
+          "mean_ms": 3.8179,
+          "p95_ms": 5.7777,
+          "min_ms": 2.5119,
+          "max_ms": 7.9981,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 1.16
+      },
+      {
+        "key": "top_attack",
+        "label": "Top 10 by attack",
+        "description": "Sort on an indexed stat and take the first 10.",
+        "kind": "read",
+        "function": "top_by_stat",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 3.0878,
+          "mean_ms": 3.2807,
+          "p95_ms": 4.7576,
+          "min_ms": 2.2652,
+          "max_ms": 7.2638,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 1.1507,
+          "mean_ms": 1.1973,
+          "p95_ms": 1.5251,
+          "min_ms": 0.7591,
+          "max_ms": 3.9904,
+          "samples": 200
+        },
+        "postgresql_raw": {
+          "median_ms": 0.7576,
+          "mean_ms": 0.7898,
+          "p95_ms": 1.0697,
+          "min_ms": 0.5136,
+          "max_ms": 1.695,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 2.68
+      },
+      {
+        "key": "count_per_type",
+        "label": "Count Pokemon per type",
+        "description": "GROUP BY type (SQL) vs $unwind + $group (MongoDB).",
+        "kind": "aggregate",
+        "function": "list_types",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 4.4461,
+          "mean_ms": 4.3851,
+          "p95_ms": 5.9297,
+          "min_ms": 2.6385,
+          "max_ms": 7.604,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 7.8409,
+          "mean_ms": 7.5786,
+          "p95_ms": 10.7774,
+          "min_ms": 4.7692,
+          "max_ms": 13.745,
+          "samples": 200
+        },
+        "postgresql_raw": {
+          "median_ms": 2.7967,
+          "mean_ms": 2.7063,
+          "p95_ms": 4.0169,
+          "min_ms": 1.5495,
+          "max_ms": 5.7569,
+          "samples": 200
+        },
+        "faster": "postgresql",
+        "ratio": 1.76
+      },
+      {
+        "key": "avg_stats_per_type",
+        "label": "Average stats per type",
+        "description": "Seven averages per type across the whole data set.",
+        "kind": "aggregate",
+        "function": "stats_by_type",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 8.272,
+          "mean_ms": 8.5895,
+          "p95_ms": 11.1542,
+          "min_ms": 5.3747,
+          "max_ms": 46.5926,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 15.6864,
+          "mean_ms": 16.9993,
+          "p95_ms": 23.6759,
+          "min_ms": 11.0606,
+          "max_ms": 28.8783,
+          "samples": 200
+        },
+        "postgresql_raw": {
+          "median_ms": 5.8581,
+          "mean_ms": 6.2616,
+          "p95_ms": 8.6269,
+          "min_ms": 3.7725,
+          "max_ms": 18.9866,
+          "samples": 200
+        },
+        "faster": "postgresql",
+        "ratio": 1.9
+      },
+      {
+        "key": "team_cycle",
+        "label": "Team: create, read, delete",
+        "description": "Insert a 6-member team, read it back with a join ($lookup), delete it.",
+        "kind": "write",
+        "function": "create_team / get_team / delete_team",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 21.2732,
+          "mean_ms": 22.13,
+          "p95_ms": 29.3484,
+          "min_ms": 14.2857,
+          "max_ms": 66.5738,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 5.3131,
+          "mean_ms": 5.5199,
+          "p95_ms": 8.0305,
+          "min_ms": 3.3098,
+          "max_ms": 21.9063,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 4.0
+      },
+      {
+        "key": "bulk_upsert",
+        "label": "Bulk upsert all Pokemon",
+        "description": "Re-import every Pokemon (insert or update), as the importer does.",
+        "kind": "write",
+        "function": "importer.import_pokemon",
+        "iterations": 10,
+        "postgresql": {
+          "median_ms": 91.7097,
+          "mean_ms": 100.3695,
+          "p95_ms": 175.5245,
+          "min_ms": 85.4347,
+          "max_ms": 175.5245,
+          "samples": 10
+        },
+        "mongodb": {
+          "median_ms": 10.5119,
+          "mean_ms": 10.4764,
+          "p95_ms": 12.8805,
+          "min_ms": 8.8435,
+          "max_ms": 12.8805,
+          "samples": 10
+        },
+        "faster": "mongodb",
+        "ratio": 8.72
+      }
+    ],
+    "api": [
+      {
+        "key": "get_by_id",
+        "label": "Get one Pokemon by id",
+        "description": "Primary key lookup returning types, abilities and stats.",
+        "kind": "read",
+        "function": "get_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 9.8913,
+          "mean_ms": 11.0594,
+          "p95_ms": 18.2112,
+          "min_ms": 4.9157,
+          "max_ms": 69.6976,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 2.8861,
+          "mean_ms": 3.4532,
+          "p95_ms": 6.7549,
+          "min_ms": 1.4862,
+          "max_ms": 19.4832,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 3.43
+      },
+      {
+        "key": "get_by_name",
+        "label": "Get one Pokemon by name",
+        "description": "Lookup on the unique name index.",
+        "kind": "read",
+        "function": "get_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 5.8889,
+          "mean_ms": 6.0591,
+          "p95_ms": 8.2411,
+          "min_ms": 3.6581,
+          "max_ms": 11.0812,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 1.9378,
+          "mean_ms": 2.0038,
+          "p95_ms": 2.93,
+          "min_ms": 1.1895,
+          "max_ms": 6.2252,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 3.04
+      },
+      {
+        "key": "list_page",
+        "label": "List a page of 20",
+        "description": "First pages of the list ordered by id, with each Pokemon's types.",
+        "kind": "read",
+        "function": "list_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 7.4964,
+          "mean_ms": 7.5766,
+          "p95_ms": 9.9479,
+          "min_ms": 4.9126,
+          "max_ms": 16.3672,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 5.9709,
+          "mean_ms": 6.2699,
+          "p95_ms": 8.1375,
+          "min_ms": 4.0757,
+          "max_ms": 27.0503,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 1.26
+      },
+      {
+        "key": "filter_type",
+        "label": "Filter by type",
+        "description": "All Pokemon of the most common type (up to 50).",
+        "kind": "read",
+        "function": "list_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 15.3187,
+          "mean_ms": 16.186,
+          "p95_ms": 23.0934,
+          "min_ms": 10.441,
+          "max_ms": 85.4787,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 6.1264,
+          "mean_ms": 6.4751,
+          "p95_ms": 8.6924,
+          "min_ms": 4.1647,
+          "max_ms": 15.6203,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 2.5
+      },
+      {
+        "key": "filter_type_attack",
+        "label": "Type + attack filter, sorted",
+        "description": "Most common type with attack >= 80, highest attack first.",
+        "kind": "read",
+        "function": "list_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 11.2513,
+          "mean_ms": 11.9136,
+          "p95_ms": 15.9194,
+          "min_ms": 6.9815,
+          "max_ms": 86.1715,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 7.1707,
+          "mean_ms": 7.3373,
+          "p95_ms": 10.0513,
+          "min_ms": 4.4774,
+          "max_ms": 15.9145,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 1.57
+      },
+      {
+        "key": "search_name",
+        "label": "Search by name",
+        "description": "Case-insensitive 'contains' search for 'ar'.",
+        "kind": "read",
+        "function": "list_pokemon",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 8.9408,
+          "mean_ms": 9.0331,
+          "p95_ms": 11.5152,
+          "min_ms": 6.3144,
+          "max_ms": 16.7916,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 7.4678,
+          "mean_ms": 7.8171,
+          "p95_ms": 9.9922,
+          "min_ms": 5.6674,
+          "max_ms": 12.5769,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 1.2
+      },
+      {
+        "key": "top_attack",
+        "label": "Top 10 by attack",
+        "description": "Sort on an indexed stat and take the first 10.",
+        "kind": "read",
+        "function": "top_by_stat",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 5.5128,
+          "mean_ms": 5.5316,
+          "p95_ms": 7.6804,
+          "min_ms": 3.5633,
+          "max_ms": 11.088,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 2.5055,
+          "mean_ms": 2.5692,
+          "p95_ms": 3.5521,
+          "min_ms": 1.473,
+          "max_ms": 5.0761,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 2.2
+      },
+      {
+        "key": "count_per_type",
+        "label": "Count Pokemon per type",
+        "description": "GROUP BY type (SQL) vs $unwind + $group (MongoDB).",
+        "kind": "aggregate",
+        "function": "list_types",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 4.6421,
+          "mean_ms": 4.8511,
+          "p95_ms": 6.6952,
+          "min_ms": 3.314,
+          "max_ms": 9.5813,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 6.9487,
+          "mean_ms": 7.6765,
+          "p95_ms": 10.9379,
+          "min_ms": 5.5577,
+          "max_ms": 13.3685,
+          "samples": 200
+        },
+        "faster": "postgresql",
+        "ratio": 1.5
+      },
+      {
+        "key": "avg_stats_per_type",
+        "label": "Average stats per type",
+        "description": "Seven averages per type across the whole data set.",
+        "kind": "aggregate",
+        "function": "stats_by_type",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 7.3886,
+          "mean_ms": 7.7419,
+          "p95_ms": 10.8077,
+          "min_ms": 5.791,
+          "max_ms": 12.7185,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 12.6557,
+          "mean_ms": 13.9536,
+          "p95_ms": 22.0253,
+          "min_ms": 10.7532,
+          "max_ms": 25.7175,
+          "samples": 200
+        },
+        "faster": "postgresql",
+        "ratio": 1.71
+      },
+      {
+        "key": "team_cycle",
+        "label": "Team: create, read, delete",
+        "description": "Insert a 6-member team, read it back with a join ($lookup), delete it.",
+        "kind": "write",
+        "function": "create_team / get_team / delete_team",
+        "iterations": 200,
+        "postgresql": {
+          "median_ms": 21.9995,
+          "mean_ms": 22.9457,
+          "p95_ms": 31.3476,
+          "min_ms": 16.334,
+          "max_ms": 50.6475,
+          "samples": 200
+        },
+        "mongodb": {
+          "median_ms": 8.0719,
+          "mean_ms": 8.5742,
+          "p95_ms": 12.6271,
+          "min_ms": 5.3873,
+          "max_ms": 21.5462,
+          "samples": 200
+        },
+        "faster": "mongodb",
+        "ratio": 2.73
+      }
+    ]
+  }
+}
