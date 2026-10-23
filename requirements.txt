@@ -1,0 +1,11 @@
+# Web framework and REST API layer
+Django>=5.2,<5.3            # 5.2 is the current LTS release (supported until April 2028)
+djangorestframework>=3.16,<4
+
+# Database drivers
+psycopg[binary]>=3.2,<4     # PostgreSQL driver used by Django's ORM
+pymongo>=4.10,<5            # Official MongoDB driver (Django's ORM does not speak MongoDB)
+
+# PokeAPI calls and configuration
+requests>=2.32,<3
+python-dotenv>=1.0,<2       # loads settings from the .env file

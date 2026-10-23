@@ -1,0 +1,39 @@
+# Starts both databases for local development:
+#   docker compose up -d
+# Django itself runs on your machine (python manage.py runserver).
+# Values come from your .env file; the defaults after ":-" are used if .env is missing.
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: pokedex-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-pokedex}
+      POSTGRES_USER: ${POSTGRES_USER:-pokedex}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pokedex}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pokedex}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mongo:
+    image: mongo:8.0
+    container_name: pokedex-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
+  mongo_data:

@@ -1,0 +1,29 @@
+# Secrets: never commit real keys or passwords
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Local PokeAPI response cache (every member builds their own)
+.cache/
+
+# Django
+db.sqlite3
+staticfiles/
+*.log
+
+# Benchmark history (only latest.json is committed)
+benchmark_results/run_*.json
+
+# Editors and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
