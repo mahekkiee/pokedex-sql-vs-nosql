@@ -172,19 +172,20 @@ connection string in `MONGO_URI` in `.env`.
 
 ### 1. Relational vs document model?
 
-<!-- section:q1 start -->
-*To be written by Member 2 (PostgreSQL lead).*
-<!-- section:q1 end -->
+In the relational model data lives in tables of rows with fixed columns. Each fact is stored once, and tables point to each other with foreign keys. In our project one Pokemon is spread over five tables and is put back together with JOINs when it is read. The database knows the schema and enforces it. 
+
+In the document model data lives in collections of JSON-like documents. Data that is read together is stored together, so our Pokemon document already contains its types, abilities and stats. The main difference is when the data is shaped. A relational design is shaped for correctness and for any question someone might ask later. A document design is shaped in advance for the way the application reads it, at the cost of some duplication. 
 
 ### 2. What are joins and schemas, and how does MongoDB handle them?
 
-<!-- section:q2 start -->
-*To be written by Member 3 (MongoDB lead).*
-<!-- section:q2 end -->
+A join combines rows from two tables by matching a key, for example pokemon.id with pokemontype.pokemon_id. A schema describes the data a database will accept: tables, columns, types and rules such as NOT NULL, UNIQUE and FOREIGN KEY. 
 
-### 3. Written by mahek?
+MongoDB handles joins in three ways. It avoids most of them by embedding related data, as we did with types and abilities. When references are needed it offers the $lookup stage, which works like a left outer join; we used it to read teams. The application can also run two queries and combine the results itself. MongoDB has no foreign keys, so nothing stops a team from pointing at a deleted Pokemon, and our code checks references before saving (MongoDB, Inc., n.d.-a). 
 
-<!-- section:q3 start -->
+MongoDB's schema is flexible by default, which makes changes easy but mistakes easy too. Our $jsonSchema validator makes the server reject documents with missing or wrongly typed fields. Even with a validator, documents written before a change keep their old shape, so the application has to handle both. 
+
+### 3. When to pick each
+
 **Pick PostgreSQL (SQL) when:**
 
 * the data has many relationships and they must stay correct (orders, payments, stock, our teams);
@@ -208,8 +209,6 @@ project, PostgreSQL was also clearly easier to build, test and administer. If we
 we would choose PostgreSQL, and if part of the data really were document-shaped we would first
 try a `JSONB` column in PostgreSQL before adding a second database.
 
-*Written by Member 1.*
-<!-- section:q3 end -->
 
 ## References
 
